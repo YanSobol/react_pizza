@@ -1,11 +1,10 @@
 import React from "react";
 import PizzaBlock from "./PizzaBlock";
-import { pizzaDB } from "../data/pizzas";
 
-const ContentItems = ({ category }) => {
+const ContentItems = ({ category, pizzas }) => {
   return (
     <div className="content__items">
-      {pizzaDB.pizzas
+      {pizzas
         .filter((pizza) => {
           if (category === 0) return pizza;
           return pizza.category === category;
