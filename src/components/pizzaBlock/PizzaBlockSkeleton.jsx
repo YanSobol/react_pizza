@@ -1,15 +1,15 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
 
-const MyLoader = (props) => (
+const PizzaBlockSkeleton = () => (
   <ContentLoader
+    className="pizza-block"
     speed={2}
     width={280}
     height={460}
     viewBox="0 0 280 460"
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb"
-    {...props}
   >
     <rect x="20" y="265" rx="10" ry="10" width="240" height="25" />
     <rect x="0" y="312" rx="10" ry="10" width="280" height="88" />
@@ -19,4 +19,4 @@ const MyLoader = (props) => (
   </ContentLoader>
 );
 
-export default MyLoader;
+export default PizzaBlockSkeleton;

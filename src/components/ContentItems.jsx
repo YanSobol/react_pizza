@@ -1,5 +1,5 @@
 import React from "react";
-import PizzaBlock from "./PizzaBlock";
+import PizzaBlock from "./pizzaBlock/pizzaBlock";
 
 const ContentItems = ({ category, pizzas }) => {
   return (
