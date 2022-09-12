@@ -1,14 +1,14 @@
 @import 'variables';
 @import 'libs/normalize';
-
 @import 'components/all';
+
 
 body {
   background-color: $background;
 }
 
 .wrapper {
-  width: calc(100vw - 100px);
+  width: calc(100vw - 50px);
   height: 100%;
   background-color: #fff;
   margin: 50px auto;
@@ -18,21 +18,47 @@ body {
 
 .content {
   padding: 40px 0;
-  
+
   &__title {
     margin: 35px 0;
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+
+    @media (max-width: 1460px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 1120px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 800px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 1300px) {
+      flex-direction: column;
+
+      .categories {
+        margin-bottom: 30px;
+        width: 80%;
+        overflow: scroll;
+
+        ul {
+          width: 800px;
+        }
+      }
+    }
   }
 }
 
