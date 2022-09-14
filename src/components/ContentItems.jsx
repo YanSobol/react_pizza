@@ -4,14 +4,9 @@ import PizzaBlock from "./pizzaBlock/pizzaBlock";
 const ContentItems = ({ category, pizzas }) => {
   return (
     <div className="content__items">
-      {pizzas
-        .filter((pizza) => {
-          if (category === 0) return pizza;
-          return pizza.category === category;
-        })
-        .map((pizza) => (
-          <PizzaBlock key={pizza.id} {...pizza} />
-        ))}
+      {pizzas.map((pizza) => (
+        <PizzaBlock key={pizza.id} {...pizza} />
+      ))}
     </div>
   );
 };

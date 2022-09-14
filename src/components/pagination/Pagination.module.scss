@@ -1,0 +1,25 @@
+
+.root {
+  li {
+    display: inline-flex;
+    justify-content: space-between;
+  }
+
+  a {
+    display: inline-block;
+    text-align: center;
+    width: 45px;
+    height: 45px;
+    line-height: 42px;
+    border: 1px solid #fe5f1e;
+    border-radius: 30px;
+    margin-right: 10px;
+
+    &:hover {
+      background: #fe5f1e;
+      color: #f6f6f6;
+
+    }
+  }
+}
+

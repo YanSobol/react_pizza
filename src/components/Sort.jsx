@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 
-const Sort = () => {
+const Sort = ({ activeSortHelper }) => {
   const sortOptions = ["популярности", "цене", "алфавиту"];
   const [sortByPopup, setSortByPopup] = useState(false);
   const [sortBy, setSortBy] = useState(sortOptions[0]);
 
   const popupState = (sort) => {
-    if (sort) setSortBy(sort);
+    if (sort) {
+      setSortBy(sort);
+      activeSortHelper(sort);
+    }
     setSortByPopup(!sortByPopup);
   };
 

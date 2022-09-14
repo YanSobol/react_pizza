@@ -1,0 +1,32 @@
+
+.search {
+  position: relative;
+
+  input {
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    padding: 10px 35px 10px 20px;
+    min-width: 100px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 16px;
+
+    &:focus {
+      border: 2px solid black;
+    }
+
+    &:hover {
+      border: 2px solid black;
+    }
+  }
+
+  svg {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: 210px;
+    top: 11px;
+    align-items: center;
+  }
+}
+
