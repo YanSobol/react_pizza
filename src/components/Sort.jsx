@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const Sort = ({ activeSortHelper }) => {
-  const sortOptions = ["популярности", "цене", "алфавиту"];
+  const sortOptions = ["rating", "price", "title"];
   const [sortByPopup, setSortByPopup] = useState(false);
   const [sortBy, setSortBy] = useState(sortOptions[0]);
 
