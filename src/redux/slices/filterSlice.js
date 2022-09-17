@@ -2,8 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   category: 0,
-  sort: "",
+  sort: "all",
   search: "",
+  currentPage: 1,
+  itemsCount: 10,
+  itemsPerPage: 4,
 };
 
 export const filterSlice = createSlice({
@@ -11,21 +14,25 @@ export const filterSlice = createSlice({
   initialState,
   reducers: {
     changeCategory: (state, value) => {
-      console.log("Category reducer: ", value.payload);
       state.category = value.payload;
+      state.currentPage = 1;
     },
     changeSort: (state, value) => {
-      console.log("Sort reducer: ", value.payload);
       state.sort = value.payload;
+      state.currentPage = 1;
     },
     changeSearch: (state, value) => {
-      console.log("Search reducer: ", value.payload);
       state.search = value.payload;
+      state.currentPage = 1;
+    },
+    changeCurrentPage: (state, value) => {
+      state.currentPage = value.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { changeCategory, changeSort, changeSearch } = filterSlice.actions;
+export const { changeCategory, changeSort, changeSearch, changeCurrentPage } =
+  filterSlice.actions;
 
 export default filterSlice.reducer;

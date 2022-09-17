@@ -1,5 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { changeCategory } from "../redux/slices/filterSlice";
 
 const Categories = ({ activeCategoryHelper }) => {
   const categories = [
@@ -12,10 +13,8 @@ const Categories = ({ activeCategoryHelper }) => {
   ];
 
   const store = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
 
-  const changeCategory = (index) => {
-    activeCategoryHelper(index);
-  };
   return (
     <div className="categories">
       <ul>
@@ -23,7 +22,7 @@ const Categories = ({ activeCategoryHelper }) => {
           <li
             key={index}
             className={store.category === index ? "active" : ""}
-            onClick={() => changeCategory(index)}
+            onClick={() => dispatch(changeCategory(index))}
           >
             {category}
           </li>

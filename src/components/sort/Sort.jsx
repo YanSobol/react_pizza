@@ -1,22 +1,24 @@
 import React, { useState } from "react";
+import styles from "./Sort.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { changeSort } from "../../redux/slices/filterSlice";
 
-const Sort = ({ activeSortHelper }) => {
+const Sort = () => {
+  const { sort } = useSelector((store) => store.filter);
+  const dispatch = useDispatch();
   const sortOptions = ["rating", "price", "title"];
-  const [sortByPopup, setSortByPopup] = useState(false);
-  const [sortBy, setSortBy] = useState(sortOptions[0]);
+  const [togglePopup, setTogglePopup] = useState(false);
 
   const popupState = (sort) => {
-    if (sort) {
-      setSortBy(sort);
-      activeSortHelper(sort);
-    }
-    setSortByPopup(!sortByPopup);
+    if (sort) dispatch(changeSort(sort));
+    setTogglePopup(!togglePopup);
   };
 
   return (
     <div className="sort">
       <div className="sort__label" onClick={() => popupState()}>
         <svg
+          className={togglePopup ? styles.arrow__up : styles.arrow__down}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -28,19 +30,19 @@ const Sort = ({ activeSortHelper }) => {
             fill="#2C2C2C"
           />
         </svg>
-        <b>Сортировка по:</b>
-        <span>{sortBy}</span>
+        <b>Sort by: </b>
+        <span>{sort}</span>
       </div>
-      {sortByPopup && (
+      {togglePopup && (
         <div className="sort__popup">
           <ul>
-            {sortOptions.map((sort, index) => (
+            {sortOptions.map((chosenSort, index) => (
               <li
                 key={index}
-                className={sort === sortBy ? "active" : ""}
-                onClick={() => popupState(sort)}
+                className={chosenSort === sort ? "active" : ""}
+                onClick={() => popupState(chosenSort)}
               >
-                {sort}
+                {chosenSort}
               </li>
             ))}
           </ul>

@@ -1,0 +1,13 @@
+
+.arrow {
+
+  &__up {
+    transform: rotate(-180deg);
+    transition-duration: 0.5s;
+  }
+
+  &__down {
+    transform: rotate(0deg);
+    transition-duration: 0.5s;
+  }
+}
