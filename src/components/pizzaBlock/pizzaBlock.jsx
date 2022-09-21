@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addPizza } from "../../redux/slices/cartSlice";
 
 const PizzaBlock = ({ imageUrl, title, types, sizes, price }) => {
   const pizzaTypeNames = ["традиционное", "тонкое", "cheesy"];
@@ -6,8 +8,21 @@ const PizzaBlock = ({ imageUrl, title, types, sizes, price }) => {
   const [pizzaSize, setPizzaSize] = useState(sizes[0]);
   const [pizzaType, setPizzaType] = useState(types[0]);
 
+  const dispatch = useDispatch();
+
   const pizzaCountIncrease = () => {
     setPizzaCount(pizzaCount + 1);
+
+    dispatch(
+      addPizza({
+        title,
+        type: pizzaTypeNames[pizzaType],
+        size: pizzaSize,
+        imageUrl,
+        price,
+        count: pizzaCount + 1,
+      })
+    );
   };
 
   return (
@@ -43,9 +58,7 @@ const PizzaBlock = ({ imageUrl, title, types, sizes, price }) => {
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">
-          от {Math.floor((price * pizzaSize) / 10)} ₽
-        </div>
+        <div className="pizza-block__price">от {price} ₽</div>
         <button
           className="button button--outline button--add"
           onClick={pizzaCountIncrease}

@@ -1,15 +1,10 @@
 import React from "react";
 import CartItem from "../components/CartItem";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Cart = () => {
-  const pizza = {
-    title: "Vegas",
-    type: "dskksc",
-    size: 32,
-    price: 216,
-    count: 2,
-  };
+  const { pizzas, totalCount, totalCost } = useSelector((state) => state.cart);
 
   return (
     <div className="container container--cart">
@@ -89,20 +84,19 @@ const Cart = () => {
           </div>
         </div>
         <div className="cart__items">
-          <CartItem {...pizza} />
-          <CartItem {...pizza} />
-          <CartItem {...pizza} />
-          <CartItem {...pizza} />
+          {pizzas.map((pizza, index) => {
+            return <CartItem key={index} {...pizza} />;
+          })}
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
             <span>
               {" "}
-              Всего пицц: <b>3 шт.</b>{" "}
+              Всего пицц: <b>{totalCount} шт.</b>{" "}
             </span>
             <span>
               {" "}
-              Сумма заказа: <b>900 ₽</b>{" "}
+              Сумма заказа: <b>{totalCost} ₽</b>{" "}
             </span>
           </div>
           <div className="cart__bottom-buttons">

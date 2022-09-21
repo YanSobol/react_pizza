@@ -1,14 +1,18 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import {
+  countDecrease,
+  countIncrease,
+  deletePizza,
+} from "../redux/slices/cartSlice";
 
-const CartItem = ({ title, type, size, price, count }) => {
+const CartItem = ({ title, type, imageUrl, size, price, count }) => {
+  const dispatch = useDispatch();
+
   return (
     <div className="cart__item">
       <div className="cart__item-img">
-        <img
-          className="pizza-block__image"
-          src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-          alt="Pizza"
-        />
+        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       </div>
       <div className="cart__item-info">
         <h3>{title}</h3>
@@ -17,7 +21,10 @@ const CartItem = ({ title, type, size, price, count }) => {
         </p>
       </div>
       <div className="cart__item-count">
-        <div className="button button--outline button--circle cart__item-count-minus">
+        <div
+          className="button button--outline button--circle cart__item-count-minus"
+          onClick={() => dispatch(countDecrease({ title, type, size }))}
+        >
           <svg
             width="10"
             height="10"
@@ -36,7 +43,10 @@ const CartItem = ({ title, type, size, price, count }) => {
           </svg>
         </div>
         <b>{count}</b>
-        <div className="button button--outline button--circle cart__item-count-plus">
+        <div
+          className="button button--outline button--circle cart__item-count-plus"
+          onClick={() => dispatch(countIncrease({ title, type, size }))}
+        >
           <svg
             width="10"
             height="10"
@@ -58,7 +68,10 @@ const CartItem = ({ title, type, size, price, count }) => {
       <div className="cart__item-price">
         <b>{price * count}₽</b>
       </div>
-      <div className="cart__item-remove">
+      <div
+        className="cart__item-remove"
+        onClick={() => dispatch(deletePizza({ title, type, size }))}
+      >
         <div className="button button--outline button--circle">
           <svg
             width="10"

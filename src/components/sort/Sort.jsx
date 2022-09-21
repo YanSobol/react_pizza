@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Sort.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { changeSort } from "../../redux/slices/filterSlice";
@@ -8,6 +8,19 @@ const Sort = () => {
   const dispatch = useDispatch();
   const sortOptions = ["rating", "price", "title"];
   const [togglePopup, setTogglePopup] = useState(false);
+  const sortRef = useRef();
+
+  useEffect(() => {
+    const popupEventListener = (event) => {
+      if (!event.composedPath().includes(sortRef.current))
+        setTogglePopup(false);
+    };
+    document.body.addEventListener("click", popupEventListener);
+
+    return () => {
+      document.body.removeEventListener("click", popupEventListener);
+    };
+  }, []);
 
   const popupState = (sort) => {
     if (sort) dispatch(changeSort(sort));
@@ -15,7 +28,7 @@ const Sort = () => {
   };
 
   return (
-    <div className="sort">
+    <div className="sort" ref={sortRef}>
       <div className="sort__label" onClick={() => popupState()}>
         <svg
           className={togglePopup ? styles.arrow__up : styles.arrow__down}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import Categories from "../components/Categories";
 import Sort from "../components/sort/Sort";
 import PizzaBlockSkeleton from "../components/pizzaBlock/PizzaBlockSkeleton";
@@ -6,11 +7,13 @@ import ContentItems from "../components/ContentItems";
 import Search from "../components/search/Search";
 import Pagination from "../components/pagination/Pagination";
 import { useSelector } from "react-redux";
+
 import axios from "axios";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState([]);
+
   const { sort, search, category, currentPage, itemsPerPage } = useSelector(
     (state) => state.filter
   );
