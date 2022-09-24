@@ -1,9 +1,13 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { addPizza } from "../../redux/slices/cartSlice";
 
 const PizzaBlock = ({ imageUrl, title, types, sizes, price }) => {
-  const pizzaTypeNames = ["традиционное", "тонкое", "cheesy"];
+  const { pizzas } = useSelector((state) => state.cart);
+  const pizzaTypeNames = useMemo(
+    () => ["традиционное", "тонкое", "cheesy"],
+    []
+  );
   const [pizzaCount, setPizzaCount] = useState(0);
   const [pizzaSize, setPizzaSize] = useState(sizes[0]);
   const [pizzaType, setPizzaType] = useState(types[0]);
@@ -11,8 +15,6 @@ const PizzaBlock = ({ imageUrl, title, types, sizes, price }) => {
   const dispatch = useDispatch();
 
   const pizzaCountIncrease = () => {
-    setPizzaCount(pizzaCount + 1);
-
     dispatch(
       addPizza({
         title,
@@ -20,10 +22,20 @@ const PizzaBlock = ({ imageUrl, title, types, sizes, price }) => {
         size: pizzaSize,
         imageUrl,
         price,
-        count: pizzaCount + 1,
+        count: 1,
       })
     );
   };
+
+  useEffect(() => {
+    const pizza = pizzas.find(
+      (pizza) =>
+        pizza.title === title &&
+        pizza.type === pizzaTypeNames[pizzaType] &&
+        pizza.size === pizzaSize
+    );
+    pizza ? setPizzaCount(pizza.count) : setPizzaCount(0);
+  }, [pizzaSize, pizzaType, pizzaTypeNames, pizzas, title]);
 
   return (
     <div className="pizza-block">

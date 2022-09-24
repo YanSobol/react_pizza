@@ -6,64 +6,54 @@ const initialState = {
   totalCost: 0,
 };
 
+const findPizza = (state, action) => {
+  const { title, type, size } = action.payload;
+  return state.pizzas.find(
+    (pizza) =>
+      pizza.title === title && pizza.type === type && pizza.size === size
+  );
+};
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addPizza: (state, action) => {
-      let change = false;
-      state.pizzas = state.pizzas.map((pizza) => {
-        if (pizza.title !== action.payload.title) return pizza;
-        else if (pizza.type !== action.payload.type) return pizza;
-        else if (pizza.size !== action.payload.size) return pizza;
-        else {
-          change = true;
-          pizza.count++;
-          return pizza;
-        }
-      });
-      if (!change) state.pizzas.push(action.payload);
-
+      const tempPizza = findPizza(state, action);
+      tempPizza ? tempPizza.count++ : state.pizzas.push(action.payload);
       state.totalCount++;
       state.totalCost += action.payload.price;
     },
-    countIncrease: (state, action) => {
-      state.pizzas = state.pizzas.map((pizza) => {
-        if (pizza.title !== action.payload.title) return pizza;
-        else if (pizza.type !== action.payload.type) return pizza;
-        else if (pizza.size !== action.payload.size) return pizza;
-        else {
-          pizza.count++;
-          state.totalCount++;
-          state.totalCost += pizza.price;
-          return pizza;
-        }
-      });
-    },
-    countDecrease: (state, action) => {
-      const {title, type, size} = action.payload;
-      const tempPizza = state.pizzas
-          .find(pizza => pizza.title === title && pizza.type === type && pizza.size === size);
-      tempPizza.count--
-      state.totalCount--;
-      state.totalCost -= tempPizza.price;
-      if (tempPizza.count === 0) state.pizzas = state.pizzas.filter((pizza) => pizza !== tempPizza);
 
+    countChange: (state, action) => {
+      const tempPizza = findPizza(state, action);
+      if (action.payload.method === "inc") {
+        tempPizza.count++;
+        state.totalCount++;
+        state.totalCost += tempPizza.price;
+      } else {
+        tempPizza.count--;
+        state.totalCount--;
+        state.totalCost -= tempPizza.price;
+        if (tempPizza.count === 0)
+          state.pizzas = state.pizzas.filter((pizza) => pizza !== tempPizza);
+      }
     },
 
     deletePizza: (state, action) => {
-      const {title, type, size} = action.payload;
-      const deletedPizza = state.pizzas.find((pizza) => {
-        return (
-            pizza.title === title && pizza.type === type && pizza.size === size
-        );
-      });
+      const deletedPizza = findPizza(state, action);
       state.totalCount -= deletedPizza.count;
       state.totalCost -= deletedPizza.price * deletedPizza.count;
       state.pizzas = state.pizzas.filter((pizza) => pizza !== deletedPizza);
     },
+
+    clearCart: (state) => {
+      state.pizzas = [];
+      state.totalCount = 0;
+      state.totalCost = 0;
+    },
   },
 });
-export const {addPizza, deletePizza, countDecrease, countIncrease} =
-    cartSlice.actions;
+export const { addPizza, deletePizza, countChange, clearCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

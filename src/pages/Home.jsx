@@ -1,43 +1,44 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useCallback, useEffect } from "react";
 import Categories from "../components/Categories";
 import Sort from "../components/sort/Sort";
 import PizzaBlockSkeleton from "../components/pizzaBlock/PizzaBlockSkeleton";
 import ContentItems from "../components/ContentItems";
 import Search from "../components/search/Search";
 import Pagination from "../components/pagination/Pagination";
-import { useSelector } from "react-redux";
-
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
 const Home = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [items, setItems] = useState([]);
+  const dispatch = useDispatch();
 
   const { sort, search, category, currentPage, itemsPerPage } = useSelector(
     (state) => state.filter
   );
 
-  useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get(`https://631e18c99f946df7dc3dcf55.mockapi.io/api/items?`, {
-        params: {
-          p: currentPage,
-          l: itemsPerPage,
-          category: category || "",
-          sortby: sort,
-          order: "desc",
-          search,
-        },
-      })
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
-    window.scrollTo(0, 0);
-  }, [category, sort, currentPage, search, itemsPerPage]);
+  const { items, status } = useSelector((state) => state.pizza);
 
+  const getPizzas = useCallback(async () => {
+    dispatch(
+      fetchPizzas({
+        url: `https://631e18c99f946df7dc3dcf55.mockapi.io/api/items?`,
+        sort,
+        category,
+        search,
+        itemsPerPage,
+        currentPage: String(currentPage),
+      })
+    );
+    window.scrollTo(0, 0);
+  }, [category, currentPage, dispatch, itemsPerPage, search, sort]);
+
+  useEffect(() => {
+    getPizzas();
+    window.scrollTo(0, 0);
+  }, [category, sort, currentPage, search, itemsPerPage, getPizzas]);
+
+  if (status === "rejected") {
+    return <h1>Oops</h1>;
+  }
   return (
     <>
       <div className="content__search">
@@ -50,7 +51,7 @@ const Home = () => {
 
       <h2 className="content__title">All Pizzas</h2>
 
-      {isLoading ? (
+      {status === "loading" ? (
         <div className="content__items">
           <PizzaBlockSkeleton />
           <PizzaBlockSkeleton />

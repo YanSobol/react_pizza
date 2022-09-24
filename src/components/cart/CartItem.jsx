@@ -1,10 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import {
-  countDecrease,
-  countIncrease,
-  deletePizza,
-} from "../redux/slices/cartSlice";
+import { countChange, deletePizza } from "../../redux/slices/cartSlice";
 
 const CartItem = ({ title, type, imageUrl, size, price, count }) => {
   const dispatch = useDispatch();
@@ -23,7 +19,9 @@ const CartItem = ({ title, type, imageUrl, size, price, count }) => {
       <div className="cart__item-count">
         <div
           className="button button--outline button--circle cart__item-count-minus"
-          onClick={() => dispatch(countDecrease({ title, type, size }))}
+          onClick={() =>
+            dispatch(countChange({ title, type, size, method: "dec" }))
+          }
         >
           <svg
             width="10"
@@ -45,7 +43,9 @@ const CartItem = ({ title, type, imageUrl, size, price, count }) => {
         <b>{count}</b>
         <div
           className="button button--outline button--circle cart__item-count-plus"
-          onClick={() => dispatch(countIncrease({ title, type, size }))}
+          onClick={() =>
+            dispatch(countChange({ title, type, size, method: "inc" }))
+          }
         >
           <svg
             width="10"
