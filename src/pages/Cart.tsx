@@ -2,11 +2,11 @@ import React from "react";
 import CartItem from "../components/cart/CartItem";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart } from "../redux/slices/cartSlice";
+import { cartSelector, clearCart } from "../redux/slices/cartSlice";
 import CartEmpty from "../components/cart/CartEmpty";
 
 const Cart = () => {
-  const { pizzas, totalCount, totalCost } = useSelector((state) => state.cart);
+  const { pizzas, totalCount, totalCost } = useSelector(cartSelector);
   const dispatch = useDispatch();
 
   return (
@@ -92,9 +92,21 @@ const Cart = () => {
               </div>
             </div>
             <div className="cart__items">
-              {pizzas.map((pizza, index) => {
-                return <CartItem key={index} {...pizza} />;
-              })}
+              {pizzas.map(
+                (
+                  pizza: JSX.IntrinsicAttributes & {
+                    title: string;
+                    type: number;
+                    imageUrl: string;
+                    size: number;
+                    price: number;
+                    count: number;
+                  },
+                  index: React.Key | null | undefined
+                ) => {
+                  return <CartItem key={index} {...pizza} />;
+                }
+              )}
             </div>
             <div className="cart__bottom">
               <div className="cart__bottom-details">

@@ -31,6 +31,7 @@ export const filterSlice = createSlice({
   },
 });
 
+export const filterSelector = (state) => state.filter;
 // Action creators are generated for each case reducer function
 export const { changeCategory, changeSort, changeSearch, changeCurrentPage } =
   filterSlice.actions;

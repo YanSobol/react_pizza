@@ -10,11 +10,11 @@ const Search = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateSearchValue = useCallback(
-    debounce((value) => dispatch(changeSearch(value)), 400),
+    debounce((value: any) => dispatch(changeSearch(value)), 400),
     []
   );
 
-  const onChangeInput = (value) => {
+  const onChangeInput = (value: React.SetStateAction<string>) => {
     setSearchValue(value);
     updateSearchValue(searchValue);
   };

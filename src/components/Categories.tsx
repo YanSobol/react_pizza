@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeCategory } from "../redux/slices/filterSlice";
+import { changeCategory, filterSelector } from "../redux/slices/filterSlice";
 
-const Categories = ({ activeCategoryHelper }) => {
+const Categories = () => {
   const categories = [
     "Все",
     "Мясные",
@@ -12,7 +12,7 @@ const Categories = ({ activeCategoryHelper }) => {
     "Закрытые",
   ];
 
-  const store = useSelector((state) => state.filter);
+  const store = useSelector(filterSelector);
   const dispatch = useDispatch();
 
   return (

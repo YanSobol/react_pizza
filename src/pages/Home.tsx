@@ -6,39 +6,50 @@ import ContentItems from "../components/ContentItems";
 import Search from "../components/search/Search";
 import Pagination from "../components/pagination/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import { fetchPizzas, pizzaSelector } from "../redux/slices/pizzaSlice";
+import { filterSelector } from "../redux/slices/filterSlice";
 
-const Home = () => {
+type IPizza = {
+  id: number;
+  imageUrl: string;
+  title: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+};
+
+const Home: React.FC = () => {
   const dispatch = useDispatch();
+  const { sort, search, category, currentPage, itemsPerPage } =
+    useSelector(filterSelector);
 
-  const { sort, search, category, currentPage, itemsPerPage } = useSelector(
-    (state) => state.filter
-  );
-
-  const { items, status } = useSelector((state) => state.pizza);
-
+  const { items, status } = useSelector(pizzaSelector);
   const getPizzas = useCallback(async () => {
-    dispatch(
-      fetchPizzas({
-        url: `https://631e18c99f946df7dc3dcf55.mockapi.io/api/items?`,
-        sort,
-        category,
-        search,
-        itemsPerPage,
-        currentPage: String(currentPage),
-      })
-    );
+    // @ts-ignore
+    dispatch(fetchPizzas());
     window.scrollTo(0, 0);
-  }, [category, currentPage, dispatch, itemsPerPage, search, sort]);
+  }, [dispatch]);
 
   useEffect(() => {
-    getPizzas();
+    getPizzas().then();
     window.scrollTo(0, 0);
   }, [category, sort, currentPage, search, itemsPerPage, getPizzas]);
+
+  const pizzas: IPizza[] = items.map((item: any) => {
+    return {
+      id: item.id,
+      imageUrl: item.imageUrl,
+      title: item.title,
+      types: item.types,
+      sizes: item.sizes,
+      price: item.price,
+    };
+  });
 
   if (status === "rejected") {
     return <h1>Oops</h1>;
   }
+
   return (
     <>
       <div className="content__search">
@@ -48,9 +59,7 @@ const Home = () => {
         <Categories />
         <Sort />
       </div>
-
       <h2 className="content__title">All Pizzas</h2>
-
       {status === "loading" ? (
         <div className="content__items">
           <PizzaBlockSkeleton />
@@ -58,7 +67,7 @@ const Home = () => {
           <PizzaBlockSkeleton />
         </div>
       ) : (
-        <ContentItems category={category} pizzas={items} />
+        <ContentItems pizzas={pizzas} />
       )}
       <Pagination />
     </>

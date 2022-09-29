@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Sort.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { changeSort } from "../../redux/slices/filterSlice";
+import { changeSort, filterSelector } from "../../redux/slices/filterSlice";
 
 const Sort = () => {
-  const { sort } = useSelector((store) => store.filter);
+  const { sort } = useSelector(filterSelector);
   const dispatch = useDispatch();
   const sortOptions = ["rating", "price", "title"];
   const [togglePopup, setTogglePopup] = useState(false);
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const popupEventListener = (event) => {
+    const popupEventListener = (event: any) => {
       if (!event.composedPath().includes(sortRef.current))
         setTogglePopup(false);
     };
@@ -22,7 +22,7 @@ const Sort = () => {
     };
   }, []);
 
-  const popupState = (sort) => {
+  const popupState = (sort?: string | undefined) => {
     if (sort) dispatch(changeSort(sort));
     setTogglePopup(!togglePopup);
   };

@@ -1,9 +1,23 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPizza } from "../../redux/slices/cartSlice";
+import { addPizza, cartSelector } from "../../redux/slices/cartSlice";
 
-const PizzaBlock = ({ imageUrl, title, types, sizes, price }) => {
-  const { pizzas } = useSelector((state) => state.cart);
+type PizzaBlockProps = {
+  imageUrl: string;
+  title: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+};
+
+const PizzaBlock: React.FC<PizzaBlockProps> = ({
+  imageUrl,
+  title,
+  types,
+  sizes,
+  price,
+}) => {
+  const { pizzas } = useSelector(cartSelector);
   const pizzaTypeNames = useMemo(
     () => ["традиционное", "тонкое", "cheesy"],
     []
@@ -29,7 +43,7 @@ const PizzaBlock = ({ imageUrl, title, types, sizes, price }) => {
 
   useEffect(() => {
     const pizza = pizzas.find(
-      (pizza) =>
+      (pizza: { title: string; type: string; size: number }) =>
         pizza.title === title &&
         pizza.type === pizzaTypeNames[pizzaType] &&
         pizza.size === pizzaSize
