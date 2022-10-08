@@ -1,5 +1,4 @@
 import PizzaBlock from "./pizzaBlock/pizzaBlock";
-import { Link } from "react-router-dom";
 import React from "react";
 
 type IPizza = {
@@ -11,13 +10,15 @@ type IPizza = {
   price: number;
 };
 
-const ContentItems: React.FC<{ pizzas: IPizza[] }> = ({ pizzas }) => {
+type ContentItemsProps = {
+  pizzas: IPizza[];
+};
+
+const ContentItems: React.FC<ContentItemsProps> = ({ pizzas }) => {
   return (
     <div className="content__items">
       {pizzas.map((pizza: IPizza) => (
-        <Link to={`pizza/${pizza.id}`} key={pizza.id}>
-          <PizzaBlock {...pizza} />
-        </Link>
+        <PizzaBlock key={pizza.id} {...pizza} />
       ))}
     </div>
   );

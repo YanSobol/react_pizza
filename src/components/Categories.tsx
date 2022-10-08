@@ -2,8 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeCategory, filterSelector } from "../redux/slices/filterSlice";
 
-const Categories = () => {
-  const categories = [
+const Categories: React.FC = () => {
+  const categories: string[] = [
     "Все",
     "Мясные",
     "Вегетарианская",

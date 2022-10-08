@@ -1,8 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { pizzaSelector } from "../redux/slices/pizzaSlice";
+import React from "react";
 
-const Pizza = () => {
+const Pizza: React.FC = () => {
   const params = useParams();
   const { items } = useSelector(pizzaSelector);
   const pizza = items.find(

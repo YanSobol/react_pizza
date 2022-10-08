@@ -1,8 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
-const initialState = {
+type SortType = {
+  sortBy: "rating" | "price" | "title" | "not sorted";
+  order: "dec" | "inc";
+};
+
+interface IFilterSliceState {
+  category: number;
+  sort: SortType;
+  search: string;
+  currentPage: number;
+  itemsCount: number;
+  itemsPerPage: number;
+}
+
+const initialState: IFilterSliceState = {
   category: 0,
-  sort: "all",
+  sort: {
+    sortBy: "not sorted",
+    order: "dec",
+  },
   search: "",
   currentPage: 1,
   itemsCount: 10,
@@ -31,7 +49,7 @@ export const filterSlice = createSlice({
   },
 });
 
-export const filterSelector = (state) => state.filter;
+export const filterSelector = (rootState: RootState) => rootState.filter;
 // Action creators are generated for each case reducer function
 export const { changeCategory, changeSort, changeSearch, changeCurrentPage } =
   filterSlice.actions;

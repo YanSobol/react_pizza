@@ -3,6 +3,12 @@
 .sort {
   position: relative;
 
+  &__sep {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 15px;
+  }
+
   &__label {
     display: flex;
     align-items: center;

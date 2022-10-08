@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addPizza, cartSelector } from "../../redux/slices/cartSlice";
 
 type PizzaBlockProps = {
+  id: number;
   imageUrl: string;
   title: string;
   types: number[];
@@ -11,14 +13,15 @@ type PizzaBlockProps = {
 };
 
 const PizzaBlock: React.FC<PizzaBlockProps> = ({
+  id,
   imageUrl,
   title,
   types,
   sizes,
   price,
 }) => {
-  const { pizzas } = useSelector(cartSelector);
-  const pizzaTypeNames = useMemo(
+  const { items } = useSelector(cartSelector);
+  const pizzaTypeNames: string[] = useMemo(
     () => ["традиционное", "тонкое", "cheesy"],
     []
   );
@@ -42,22 +45,24 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
   };
 
   useEffect(() => {
-    const pizza = pizzas.find(
-      (pizza: { title: string; type: string; size: number }) =>
+    const pizza = items.find(
+      (pizza) =>
         pizza.title === title &&
-        pizza.type === pizzaTypeNames[pizzaType] &&
+        pizzaTypeNames[pizza.type] === pizzaTypeNames[pizzaType] &&
         pizza.size === pizzaSize
     );
     pizza ? setPizzaCount(pizza.count) : setPizzaCount(0);
-  }, [pizzaSize, pizzaType, pizzaTypeNames, pizzas, title]);
+  }, [pizzaSize, pizzaType, pizzaTypeNames, items, title]);
 
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src={imageUrl}
-        alt={title + " pizza"}
-      />
+      <Link to={`pizza/${id}`}>
+        <img
+          className="pizza-block__image"
+          src={imageUrl}
+          alt={title + " pizza"}
+        />
+      </Link>
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>

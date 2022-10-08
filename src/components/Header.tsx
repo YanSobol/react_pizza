@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { cartSelector } from "../redux/slices/cartSlice";
 
-const Header = () => {
+const Header: React.FC = () => {
   const { totalCount, totalCost } = useSelector(cartSelector);
   return (
     <div className="header">

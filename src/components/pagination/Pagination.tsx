@@ -7,7 +7,7 @@ import {
   filterSelector,
 } from "../../redux/slices/filterSlice";
 
-const Pagination = () => {
+const Pagination: React.FC = () => {
   const dispatch = useDispatch();
   const { itemsCount, itemsPerPage, currentPage } = useSelector(filterSelector);
   return (

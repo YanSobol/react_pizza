@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartSelector, clearCart } from "../redux/slices/cartSlice";
 import CartEmpty from "../components/cart/CartEmpty";
 
-const Cart = () => {
-  const { pizzas, totalCount, totalCost } = useSelector(cartSelector);
+const Cart: React.FC = () => {
+  const { items, totalCount, totalCost } = useSelector(cartSelector);
   const dispatch = useDispatch();
 
   return (
     <>
-      {pizzas.length ? (
+      {items.length ? (
         <div className="container container--cart">
           <div className="cart">
             <div className="cart__top">
@@ -92,7 +92,7 @@ const Cart = () => {
               </div>
             </div>
             <div className="cart__items">
-              {pizzas.map(
+              {items.map(
                 (
                   pizza: JSX.IntrinsicAttributes & {
                     title: string;
