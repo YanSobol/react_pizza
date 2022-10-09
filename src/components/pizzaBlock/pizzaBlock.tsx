@@ -2,24 +2,10 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addPizza, cartSelector } from "../../redux/slices/cartSlice";
+import { Pizza } from "../../redux/slices/pizzaSlice";
 
-type PizzaBlockProps = {
-  id: number;
-  imageUrl: string;
-  title: string;
-  types: number[];
-  sizes: number[];
-  price: number;
-};
-
-const PizzaBlock: React.FC<PizzaBlockProps> = ({
-  id,
-  imageUrl,
-  title,
-  types,
-  sizes,
-  price,
-}) => {
+const PizzaBlock: React.FC<Pizza> = (pizza: Pizza) => {
+  const { id, imageUrl, title, types, sizes, price } = pizza;
   const { items } = useSelector(cartSelector);
   const pizzaTypeNames: string[] = useMemo(
     () => ["традиционное", "тонкое", "cheesy"],
@@ -45,14 +31,15 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
   };
 
   useEffect(() => {
-    const pizza = items.find(
-      (pizza) =>
+    const pizza = items.find((pizza) => {
+      return (
         pizza.title === title &&
-        pizzaTypeNames[pizza.type] === pizzaTypeNames[pizzaType] &&
+        pizza.type === pizzaTypeNames[pizzaType] &&
         pizza.size === pizzaSize
-    );
+      );
+    });
     pizza ? setPizzaCount(pizza.count) : setPizzaCount(0);
-  }, [pizzaSize, pizzaType, pizzaTypeNames, items, title]);
+  }, [items, pizzaSize, pizzaType, pizzaTypeNames, title]);
 
   return (
     <div className="pizza-block">

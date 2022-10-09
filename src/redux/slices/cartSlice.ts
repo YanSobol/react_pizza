@@ -1,9 +1,9 @@
 import { createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-type CartItem = {
+export type CartItem = {
   title: string;
-  type: number;
+  type: string;
   imageUrl: string;
   size: number;
   price: number;
@@ -37,14 +37,22 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addPizza: (state, action) => {
+    addPizza: (state, action: PayloadAction<CartItem>) => {
       const tempPizza = findPizza(state, action);
       tempPizza ? tempPizza.count++ : state.items.push(action.payload);
       state.totalCount++;
       state.totalCost += action.payload.price;
     },
 
-    countChange: (state, action) => {
+    countChange: (
+      state,
+      action: PayloadAction<{
+        title: string;
+        type: string;
+        size: number;
+        method: "dec" | "inc";
+      }>
+    ) => {
       const tempPizza = findPizza(state, action);
       if (tempPizza) {
         if (action.payload.method === "inc") {
@@ -61,7 +69,14 @@ export const cartSlice = createSlice({
       }
     },
 
-    deletePizza: (state, action) => {
+    deletePizza: (
+      state,
+      action: PayloadAction<{
+        title: string;
+        type: string;
+        size: number;
+      }>
+    ) => {
       const deletedPizza = findPizza(state, action);
       if (deletedPizza) {
         state.totalCount -= deletedPizza.count;

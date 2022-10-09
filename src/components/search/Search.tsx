@@ -1,29 +1,30 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Search.module.scss";
 import debounce from "lodash.debounce";
 import { useDispatch } from "react-redux";
 import { changeSearch } from "../../redux/slices/filterSlice";
 
 const Search: React.FC = () => {
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState<string>("");
   const dispatch = useDispatch();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateSearchValue = useCallback(
-    debounce((value: string) => dispatch(changeSearch(value)), 400),
+    debounce((value: string) => {
+      dispatch(changeSearch(value));
+    }, 400),
     []
   );
 
-  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setSearchValue(event.target.value);
+  useEffect(() => {
     updateSearchValue(searchValue);
-  };
+  }, [searchValue, updateSearchValue]);
 
   return (
     <div className={styles.search}>
       <input
         value={searchValue}
-        onChange={(event) => onChangeInput(event)}
+        onChange={(event) => setSearchValue(event.target.value)}
         placeholder="search field"
       />
       <svg

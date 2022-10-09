@@ -96,7 +96,7 @@ const Cart: React.FC = () => {
                 (
                   pizza: JSX.IntrinsicAttributes & {
                     title: string;
-                    type: number;
+                    type: string;
                     imageUrl: string;
                     size: number;
                     price: number;

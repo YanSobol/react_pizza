@@ -1,23 +1,15 @@
 import PizzaBlock from "./pizzaBlock/pizzaBlock";
 import React from "react";
-
-type IPizza = {
-  id: number;
-  imageUrl: string;
-  title: string;
-  types: number[];
-  sizes: number[];
-  price: number;
-};
+import { Pizza } from "../redux/slices/pizzaSlice";
 
 type ContentItemsProps = {
-  pizzas: IPizza[];
+  pizzas: Pizza[];
 };
 
 const ContentItems: React.FC<ContentItemsProps> = ({ pizzas }) => {
   return (
     <div className="content__items">
-      {pizzas.map((pizza: IPizza) => (
+      {pizzas.map((pizza: Pizza) => (
         <PizzaBlock key={pizza.id} {...pizza} />
       ))}
     </div>

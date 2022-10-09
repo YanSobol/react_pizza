@@ -7,7 +7,7 @@ const Sort: React.FC = () => {
   const { sort } = useSelector(filterSelector);
   const dispatch = useDispatch();
   const sortOptions: string[] = ["rating", "price", "title", "not sorted"];
-  const orderOptions: string[] = ["dec", "inc"];
+  const orderOptions: string[] = ["desc", "inc"];
   const [toggleSortPopup, setToggleSortPopup] = useState(false);
   const [toggleOrderPopup, setToggleOrderPopup] = useState(false);
   const sortRef = useRef<HTMLDivElement>(null);
@@ -34,10 +34,13 @@ const Sort: React.FC = () => {
     updatedOrder?: string | undefined,
     type?: string
   ) => {
-    console.log(type);
-    type === "order"
-      ? setToggleOrderPopup(!toggleOrderPopup)
-      : setToggleSortPopup(!toggleSortPopup);
+    if (type === "order") {
+      setToggleOrderPopup(!toggleOrderPopup);
+      setToggleSortPopup(false);
+    } else if (type === "sort") {
+      setToggleSortPopup(!toggleSortPopup);
+      setToggleOrderPopup(false);
+    }
     if (updatedOrder) {
       dispatch(changeSort({ ...sort, order: updatedOrder }));
       setToggleOrderPopup(!toggleOrderPopup);
@@ -46,13 +49,11 @@ const Sort: React.FC = () => {
       dispatch(changeSort({ ...sort, sortBy: updatedSort }));
       setToggleSortPopup(!toggleSortPopup);
     }
-
-    console.log(toggleSortPopup);
-    console.log(toggleOrderPopup);
   };
 
   return (
     <div className="sort__sep" ref={sortRef}>
+      {/*Sort component*/}
       <div
         className="sort__label"
         onClick={() => popupState(undefined, undefined, "sort")}
@@ -72,23 +73,24 @@ const Sort: React.FC = () => {
         </svg>
         <b>Sort by: </b>
         <span>{sort.sortBy}</span>
+        {toggleSortPopup && (
+          <div className="sort__popup">
+            <ul>
+              {sortOptions.map((chosenSort, index) => (
+                <li
+                  key={index}
+                  className={chosenSort === sort.sortBy ? "active" : ""}
+                  onClick={() => popupState(chosenSort, undefined, undefined)}
+                >
+                  {chosenSort}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
-      {toggleSortPopup && (
-        <div className="sort__popup">
-          <ul>
-            {sortOptions.map((chosenSort, index) => (
-              <li
-                key={index}
-                className={chosenSort === sort.sortBy ? "active" : ""}
-                onClick={() => popupState(chosenSort, undefined, undefined)}
-              >
-                {chosenSort}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      {/*-----------------*/}
+
+      {/*Order component*/}
       <div
         className="sort__label"
         onClick={() => popupState(undefined, undefined, "order")}
@@ -108,22 +110,22 @@ const Sort: React.FC = () => {
         </svg>
         <b>Order by: </b>
         <span>{sort.order}</span>
+        {toggleOrderPopup && (
+          <div className="sort__popup">
+            <ul>
+              {orderOptions.map((chosenOrder, index) => (
+                <li
+                  key={index}
+                  className={chosenOrder === sort.order ? "active" : ""}
+                  onClick={() => popupState(undefined, chosenOrder, undefined)}
+                >
+                  {chosenOrder}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
-      {toggleOrderPopup && (
-        <div className="sort__popup">
-          <ul>
-            {orderOptions.map((chosenOrder, index) => (
-              <li
-                key={index}
-                className={chosenOrder === sort.order ? "active" : ""}
-                onClick={() => popupState(undefined, chosenOrder)}
-              >
-                {chosenOrder}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { countChange, deletePizza } from "../../redux/slices/cartSlice";
 
 type CartItemProps = {
   title: string;
-  type: number;
+  type: string;
   imageUrl: string;
   size: number;
   price: number;
