@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Sort.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { changeSort, filterSelector } from "../../redux/slices/filterSlice";
+import { changeSort, sortSelector } from "../../redux/slices/filterSlice";
 
-const Sort: React.FC = () => {
-  const { sort } = useSelector(filterSelector);
+const Sort: React.FC = React.memo(() => {
+  const sort = useSelector(sortSelector);
   const dispatch = useDispatch();
   const sortOptions: string[] = ["rating", "price", "title", "not sorted"];
   const orderOptions: string[] = ["desc", "inc"];
@@ -128,6 +128,6 @@ const Sort: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Sort;

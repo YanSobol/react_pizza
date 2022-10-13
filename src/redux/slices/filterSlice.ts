@@ -50,6 +50,10 @@ export const filterSlice = createSlice({
 });
 
 export const filterSelector = (rootState: RootState) => rootState.filter;
+export const categorySelector = (rootState: RootState) =>
+  rootState.filter.category;
+export const sortSelector = (rootState: RootState) => rootState.filter.sort;
+
 // Action creators are generated for each case reducer function
 export const { changeCategory, changeSort, changeSearch, changeCurrentPage } =
   filterSlice.actions;

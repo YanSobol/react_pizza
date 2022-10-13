@@ -5,18 +5,18 @@ import PizzaBlockSkeleton from "../components/pizzaBlock/PizzaBlockSkeleton";
 import ContentItems from "../components/ContentItems";
 import Search from "../components/search/Search";
 import Pagination from "../components/pagination/Pagination";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { fetchPizzas, pizzaSelector } from "../redux/slices/pizzaSlice";
 import { filterSelector } from "../redux/slices/filterSlice";
+import { useAppDispatch } from "../redux/store";
 
 const Home: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { sort, search, category, currentPage, itemsPerPage } =
     useSelector(filterSelector);
 
   const { items, status } = useSelector(pizzaSelector);
   const getPizzas = useCallback(async () => {
-    // @ts-ignore
     dispatch(fetchPizzas());
     window.scrollTo(0, 0);
   }, [dispatch]);
