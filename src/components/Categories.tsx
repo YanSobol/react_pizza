@@ -4,12 +4,12 @@ import { categorySelector, changeCategory } from "../redux/slices/filterSlice";
 
 const Categories: React.FC = React.memo(() => {
   const categories: string[] = [
-    "Все",
-    "Мясные",
-    "Вегетарианская",
-    "Гриль",
-    "Острые",
-    "Закрытые",
+    "All",
+    "Meat",
+    "Vegan",
+    "Grill",
+    "Spicy",
+    "Special",
   ];
 
   const category = useSelector(categorySelector);

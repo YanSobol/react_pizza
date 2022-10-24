@@ -7,10 +7,7 @@ import { Pizza } from "../../redux/slices/pizzaSlice";
 const PizzaBlock: React.FC<Pizza> = (pizza: Pizza) => {
   const { id, imageUrl, title, types, sizes, price } = pizza;
   const { items } = useSelector(cartSelector);
-  const pizzaTypeNames: string[] = useMemo(
-    () => ["традиционное", "тонкое", "cheesy"],
-    []
-  );
+  const pizzaTypeNames: string[] = useMemo(() => ["regular", "thin"], []);
   const [pizzaCount, setPizzaCount] = useState(0);
   const [pizzaSize, setPizzaSize] = useState(sizes[0]);
   const [pizzaType, setPizzaType] = useState(types[0]);
@@ -70,13 +67,13 @@ const PizzaBlock: React.FC<Pizza> = (pizza: Pizza) => {
               className={size === pizzaSize ? "active" : ""}
               onClick={() => setPizzaSize(sizes[index])}
             >
-              {size} см.
+              {size} cm.
             </li>
           ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">от {price} ₽</div>
+        <div className="pizza-block__price">from {price} $</div>
         <button
           className="button button--outline button--add"
           onClick={pizzaCountIncrease}
@@ -93,7 +90,7 @@ const PizzaBlock: React.FC<Pizza> = (pizza: Pizza) => {
               fill="white"
             />
           </svg>
-          <span>Добавить</span>
+          <span>Add</span>
           <i>{pizzaCount}</i>
         </button>
       </div>
