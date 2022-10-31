@@ -41,7 +41,9 @@ export const cartSlice = createSlice({
       const tempPizza = findPizza(state, action);
       tempPizza ? tempPizza.count++ : state.items.push(action.payload);
       state.totalCount++;
-      state.totalCost += action.payload.price;
+      state.totalCost = Number(
+        (state.totalCost + action.payload.price).toFixed(2)
+      );
     },
 
     countChange: (
@@ -58,11 +60,15 @@ export const cartSlice = createSlice({
         if (action.payload.method === "inc") {
           tempPizza.count++;
           state.totalCount++;
-          state.totalCost += tempPizza.price;
+          state.totalCost = Number(
+            (state.totalCost + tempPizza.price).toFixed(2)
+          );
         } else {
           tempPizza.count--;
           state.totalCount--;
-          state.totalCost -= tempPizza.price;
+          state.totalCost = Number(
+            (state.totalCost - tempPizza.price).toFixed(2)
+          );
           if (tempPizza.count === 0)
             state.items = state.items.filter((pizza) => pizza !== tempPizza);
         }
@@ -80,7 +86,9 @@ export const cartSlice = createSlice({
       const deletedPizza = findPizza(state, action);
       if (deletedPizza) {
         state.totalCount -= deletedPizza.count;
-        state.totalCost -= deletedPizza.price * deletedPizza.count;
+        state.totalCost = Number(
+          (state.totalCost - deletedPizza.price * deletedPizza.count).toFixed(2)
+        );
         state.items = state.items.filter((pizza) => pizza !== deletedPizza);
       }
     },

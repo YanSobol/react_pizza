@@ -16,7 +16,7 @@ const Pizza = lazy(() => import(/*webpackChunkName: 'Pizza'*/ "./pages/Pizza"));
 function App() {
   return (
     <div className="wrapper">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense>
         <Header />
         <div className="content">
           <div className="container">
