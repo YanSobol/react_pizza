@@ -20,7 +20,7 @@ const Header: React.FC = () => {
         </div>
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
-            <span>{totalCost} ₽</span>
+            <span>{totalCost} $</span>
             <div className="button__delimiter" />
             <svg
               width="18"
